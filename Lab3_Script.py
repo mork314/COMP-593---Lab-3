@@ -20,7 +20,6 @@ def get_sales_csv():
         sys.exit()
     # Check whether provide parameter is valid path of file
     if os.path.isfile(sales_csv):
-        print(str(os.path.isfile(sales_csv)))
         return sales_csv
     else:
         print("Error: File path doesn't exist")
@@ -69,7 +68,6 @@ def process_sales_data(sales_csv, orders_dir):
         GRAND_TOTAL_df = pd.DataFrame({'ITEM PRICE':['GRAND TOTAL'], 
                                     'TOTAL PRICE':[grand_total]})
         order_df = pd.concat([order_df, GRAND_TOTAL_df])
-        print(order_df)
         
         # Determine the file name and full path of the Excel sheet
         customer_name = order_df['CUSTOMER NAME'].values[0]
@@ -81,7 +79,6 @@ def process_sales_data(sales_csv, orders_dir):
         sheet_name_to_use = f'Order #{order_id}'        
         order_df.to_excel(order_file_path, index=False, sheet_name = sheet_name_to_use)
         # TODO: Format the Excel sheet
-    pass
 
 if __name__ == '__main__':
     main()
