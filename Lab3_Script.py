@@ -58,7 +58,7 @@ def process_sales_data(sales_csv, orders_dir):
     for order_id, order_df in groups:
         
         # Remove the "ORDER ID" column
-        del order_df['ORDER ID']
+        order_df = order_df.drop('ORDER ID', axis=1)
         
         # Sort the items by item number
         order_df.sort_values(by=['ITEM NUMBER'], inplace=True)
@@ -75,10 +75,28 @@ def process_sales_data(sales_csv, orders_dir):
         order_file_name = f'Order{order_id}_{customer_name}.xlsx'
         order_file_path = os.path.join(orders_dir, order_file_name)
         
+        
         # Export the data to an Excel sheet
         sheet_name_to_use = f'Order #{order_id}'        
-        order_df.to_excel(order_file_path, index=False, sheet_name = sheet_name_to_use)
-        # TODO: Format the Excel sheet
+        # Create a Pandas Excel writer using XlsxWriter as the engine.
+        writer = pd.ExcelWriter(order_file_path, engine='xlsxwriter')
+        #Convert the dataframe to an XlsxWriter Excel object
+        order_df.to_excel(writer, sheet_name = sheet_name_to_use, index=False)
+
+        workbook = writer.book
+        worksheet = writer.sheets[sheet_name_to_use]
+
+        # Add some cell formats.
+        format1 = workbook.add_format({'num_format': '$#,##0.00'})
+        #Set column width and format
+        worksheet.set_column(0, 0, 11)
+        worksheet.set_column(1, 4, 13)
+        worksheet.set_column(5, 6, 13, format1)
+        worksheet.set_column(2, 4, 15)
+        worksheet.set_column(8, 8, 30)
+        
+        writer.close()
+
 
 if __name__ == '__main__':
     main()

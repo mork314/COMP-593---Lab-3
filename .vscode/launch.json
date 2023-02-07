@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["C:\\Scripting - Mark Noble\\COMP-593---Lab-3\\sales_data.csv"]
+            "args": ["C:\\Users\\markn\\OneDrive\\Documents\\GitHub\\COMP-593---Lab-3\\sales_data.csv"]
         }
     ]
 }
